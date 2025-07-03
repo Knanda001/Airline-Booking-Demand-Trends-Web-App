@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airline Booking Demand Trends</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { text-align: center; }
+        .container { max-width: 800px; margin: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        form { margin-bottom: 20px; }
+        input[type="text"] { padding: 5px; }
+        input[type="submit"] { padding: 5px 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Airline Booking Demand Trends</h1>
+        <form method="post">
+            <label for="airport_code">Enter Airport Code (e.g., SYD for Sydney):</label>
+            <input type="text" id="airport_code" name="airport_code" value="{{ airport_code or '' }}">
+            <input type="submit" value="Fetch Data">
+        </form>
+        
+        {% if routes_df is not none %}
+            <h2>Popular Routes</h2>
+            <table>
+                <tr>
+                    <th>Route</th>
+                    <th>Flight Count</th>
+                </tr>
+                {% for index, row in routes_df.iterrows() %}
+                    <tr>
+                        <td>{{ row['Route'] }}</td>
+                        <td>{{ row['Flight Count'] }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            
+            <h2>Demand by Date</h2>
+            <table>
+                <tr>
+                    <th>Date</th>
+                    <th>Flight Count</th>
+                </tr>
+                {% for index, row in dates_df.iterrows() %}
+                    <tr>
+                        <td>{{ row['Date'] }}</td>
+                        <td>{{ row['Flight Count'] }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            
+            <h2>Route Demand Visualization</h2>
+            {{ plot_html | safe }}
+        {% else %}
+            <p>Enter an airport code and click "Fetch Data" to see trends.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
