@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 app = Flask(__name__)
 
 
-API_KEY = "6d8f30fdbe87ab2d0fd8707cb0ca76dc"  
+API_KEY = "YOUR_API_KEY_HERE"  
 BASE_URL = "http://api.aviationstack.com/v1/flights"
 
 def fetch_flight_data(airport_code=None):
